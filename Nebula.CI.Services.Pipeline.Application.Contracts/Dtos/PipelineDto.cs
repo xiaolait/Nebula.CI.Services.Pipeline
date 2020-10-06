@@ -7,8 +7,8 @@ namespace Nebula.CI.Services.Pipeline
         public string Name { get; set; }
         public string Diagram { get; set; }
         public string LastStauts { get; set; }
-        public DateTime LastSuccessTime { get; set; }
-        public DateTime LastFailtureTime { get; set; }
+        public string LastSuccessTime { get; set; }
+        public string LastFailtureTime { get; set; }
     }
 
     public enum PipelineStautsDto

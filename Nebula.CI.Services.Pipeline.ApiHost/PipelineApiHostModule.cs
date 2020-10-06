@@ -49,6 +49,13 @@ namespace Nebula.CI.Services.Pipeline
                 app.UseExceptionHandler("/Error");
             }
 
+            app.UseCors(option => 
+            {
+                option.AllowAnyHeader();
+                option.AllowAnyMethod();
+                option.AllowAnyOrigin();
+            });
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

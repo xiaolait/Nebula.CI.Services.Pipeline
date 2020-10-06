@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Nebula.CI.Services.Pipeline.EFCore.DbMigrations
+namespace Nebula.CI.Services.Pipeline
 {
     public class PipelineDbMigrationsContextFactory : IDesignTimeDbContextFactory<PipelineDbMigrationsContext>
     {
