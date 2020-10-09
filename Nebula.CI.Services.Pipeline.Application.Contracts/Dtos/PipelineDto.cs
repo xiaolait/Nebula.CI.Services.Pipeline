@@ -9,5 +9,6 @@ namespace Nebula.CI.Services.Pipeline
         public string LastStatus { get; set; }
         public string LastSucceededTime { get; set; }
         public string LastFailedTime { get; set; }
+        public int ExecTimes { get; protected set; }
     }
 }
