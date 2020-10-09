@@ -9,7 +9,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Nebula.CI.Services.Pipeline.EFCore.DbMigrations.Migrations
 {
     [DbContext(typeof(PipelineDbMigrationsContext))]
-    [Migration("20201005073130_Init")]
+    [Migration("20201008094230_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,15 @@ namespace Nebula.CI.Services.Pipeline.EFCore.DbMigrations.Migrations
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnName("ExtraProperties")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LastFailedTime")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LastStatus")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LastSucceededTime")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")

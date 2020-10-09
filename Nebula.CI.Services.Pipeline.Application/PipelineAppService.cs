@@ -63,7 +63,7 @@ namespace Nebula.CI.Services.Pipeline
             return pipelineList;
         }
 
-        public async Task UpdateAsync(PipelineDto input)
+        public async Task UpdateAsync(UpdatePipelineDiagramDto input)
         {
             var pipeline = await _pipelineRepository.GetAsync(input.Id);
 

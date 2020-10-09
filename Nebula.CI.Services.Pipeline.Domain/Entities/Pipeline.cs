@@ -7,6 +7,9 @@ namespace Nebula.CI.Services.Pipeline
     {
         public string Name { get; protected set; }
         public string Diagram { get; protected set; }
+        public string LastStatus { get; protected set; }
+        public string LastSucceededTime { get; protected set; }
+        public string LastFailedTime { get; protected set; }
         public int ExecTimes { get; protected set; }
         public int UserId { get; protected set; }
 

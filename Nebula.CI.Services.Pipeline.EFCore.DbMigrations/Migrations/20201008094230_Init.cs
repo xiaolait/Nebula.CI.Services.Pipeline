@@ -17,6 +17,9 @@ namespace Nebula.CI.Services.Pipeline.EFCore.DbMigrations.Migrations
                     ConcurrencyStamp = table.Column<string>(maxLength: 40, nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Diagram = table.Column<string>(nullable: true),
+                    LastStatus = table.Column<string>(nullable: true),
+                    LastSucceededTime = table.Column<string>(nullable: true),
+                    LastFailedTime = table.Column<string>(nullable: true),
                     ExecTimes = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
