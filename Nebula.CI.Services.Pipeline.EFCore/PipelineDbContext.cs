@@ -5,7 +5,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace Nebula.CI.Services.Pipeline
 {
-    [ConnectionStringName("mysql")]
+    [ConnectionStringName("Pipeline")]
     public class PipelineDbContext : AbpDbContext<PipelineDbContext>
     {
         public DbSet<Pipeline> Pipelines { get; set; }

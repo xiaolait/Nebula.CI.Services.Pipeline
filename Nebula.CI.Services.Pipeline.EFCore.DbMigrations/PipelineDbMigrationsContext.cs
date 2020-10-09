@@ -5,7 +5,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace Nebula.CI.Services.Pipeline
 {
-    [ConnectionStringName("mysql")]
+    [ConnectionStringName("Pipeline")]
     public class PipelineDbMigrationsContext : AbpDbContext<PipelineDbMigrationsContext>
     {
         public PipelineDbMigrationsContext(DbContextOptions<PipelineDbMigrationsContext> options)
