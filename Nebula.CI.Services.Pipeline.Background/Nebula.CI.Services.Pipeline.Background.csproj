@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.BackgroundJobs" Version="3.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nebula.CI.Services.Pipeline.Application.Contracts\Nebula.CI.Services.Pipeline.Application.Contracts.csproj" />
+  </ItemGroup>
 </Project>
