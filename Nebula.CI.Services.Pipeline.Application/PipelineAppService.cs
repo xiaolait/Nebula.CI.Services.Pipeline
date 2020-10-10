@@ -13,13 +13,13 @@ namespace Nebula.CI.Services.Pipeline
     {
         private readonly IRepository<Pipeline, int> _pipelineRepository;
         private readonly IUserAppService _userAppService;
-        private readonly IPipelineHistoryProxy _pipelineHistoryProxy;
+        private readonly IServiceProvider _serviceProvider;
 
-        public PipelineAppService(IRepository<Pipeline, int> pipelineRepository, IUserAppService userAppService, IPipelineHistoryProxy pipelineHistoryProxy = null)
+        public PipelineAppService(IRepository<Pipeline, int> pipelineRepository, IUserAppService userAppService, IServiceProvider serviceProvider)
         {
             _pipelineRepository = pipelineRepository;
             _userAppService = userAppService;
-            _pipelineHistoryProxy = pipelineHistoryProxy;
+            _serviceProvider = serviceProvider;
         }
 
         //[Authorize]
@@ -41,7 +41,9 @@ namespace Nebula.CI.Services.Pipeline
 
             var pipelineDto = ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
             pipelineDto.Diagram = diagram??pipelineDto.Diagram;
-            await _pipelineHistoryProxy?.CreateAsync(pipelineDto);
+
+            var pipelineHistoryProxy = _serviceProvider.GetService(typeof(IPipelineHistoryProxy)) as IPipelineHistoryProxy;
+            await pipelineHistoryProxy.CreateAsync(pipelineDto);
         }
 
         public async Task DeleteAsync(int id)

@@ -13,7 +13,4 @@
     <ProjectReference Include="..\Nebula.CI.Services.Pipeline.Application.Contracts\Nebula.CI.Services.Pipeline.Application.Contracts.csproj" />
     <ProjectReference Include="..\Nebula.CI.Services.Pipeline.Domain\Nebula.CI.Services.Pipeline.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DomainEventHandlers\" />
-  </ItemGroup>
 </Project>
