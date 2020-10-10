@@ -13,7 +13,7 @@ namespace Nebula.CI.Services.Pipeline
             var configuration = BuildConfiguration();
 
             var builder = new DbContextOptionsBuilder<PipelineDbMigrationsContext>()
-                .UseMySql(configuration.GetConnectionString("mysql"));
+                .UseMySql(configuration.GetConnectionString("Pipeline"));
 
             return new PipelineDbMigrationsContext(builder.Options);
         }
