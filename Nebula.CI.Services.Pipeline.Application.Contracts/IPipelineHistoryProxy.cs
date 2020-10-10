@@ -4,7 +4,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace Nebula.CI.Services.Pipeline
 {
-    public interface IPipelineHistoryProxy : ITransientDependency
+    public interface IPipelineHistoryProxy
     {
         Task CreateAsync(PipelineDto input);
     }

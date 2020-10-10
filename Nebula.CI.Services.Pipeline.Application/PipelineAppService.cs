@@ -13,11 +13,13 @@ namespace Nebula.CI.Services.Pipeline
     {
         private readonly IRepository<Pipeline, int> _pipelineRepository;
         private readonly IUserAppService _userAppService;
+        private readonly IPipelineHistoryProxy _pipelineHistoryProxy;
 
-        public PipelineAppService(IRepository<Pipeline, int> pipelineRepository, IUserAppService userAppService)
+        public PipelineAppService(IRepository<Pipeline, int> pipelineRepository, IUserAppService userAppService, IPipelineHistoryProxy pipelineHistoryProxy = null)
         {
             _pipelineRepository = pipelineRepository;
             _userAppService = userAppService;
+            _pipelineHistoryProxy = pipelineHistoryProxy;
         }
 
         //[Authorize]
@@ -32,11 +34,14 @@ namespace Nebula.CI.Services.Pipeline
             return ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
         }
 
-        public async Task CreateRunAsync(int id)
+        public async Task CreateRunAsync(int id, string diagram)
         {
             var pipeline = await _pipelineRepository.GetAsync(id);
-
             pipeline.Run();
+
+            var pipelineDto = ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
+            pipelineDto.Diagram = diagram??pipelineDto.Diagram;
+            await _pipelineHistoryProxy?.CreateAsync(pipelineDto);
         }
 
         public async Task DeleteAsync(int id)
@@ -69,6 +74,12 @@ namespace Nebula.CI.Services.Pipeline
 
             pipeline.SetName(input.Name);
             pipeline.SetDiagram(input.Diagram);
+        }
+
+        public async Task UpdateStatusAsync(UpdatePipelineStatusDto input)
+        {
+            var pipeline = await _pipelineRepository.GetAsync(input.Id);
+            pipeline.SetStatus(input.Status, input.Time);
         }
     }
 }

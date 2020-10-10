@@ -37,10 +37,17 @@ namespace Nebula.CI.Services.Pipeline
             return this;
         }
 
+        public Pipeline SetStatus(string status, string time)
+        {
+            LastStatus = status;
+            if (status == "Succeeded") LastSucceededTime = time;
+            if (status == "Failed") LastFailedTime = time;
+            return this;
+        }
+
         public Pipeline Run()
         {
             ExecTimes++;
-            AddLocalEvent(new PipelineRunEvent(this));
             return this;
         }
     }
