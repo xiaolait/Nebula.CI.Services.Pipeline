@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Application.Services;
-using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Domain.Repositories;
 
 namespace Nebula.CI.Services.Pipeline
@@ -14,13 +13,13 @@ namespace Nebula.CI.Services.Pipeline
     {
         private readonly IRepository<Pipeline, int> _pipelineRepository;
         private readonly IUserAppService _userAppService;
-        private readonly IBackgroundJobManager _backgroundJobManager;
+        private readonly IPipelineHistoryProxy _pipelineHistoryProxy;
 
-        public PipelineAppService(IRepository<Pipeline, int> pipelineRepository, IUserAppService userAppService, IBackgroundJobManager backgroundJobManager)
+        public PipelineAppService(IRepository<Pipeline, int> pipelineRepository, IUserAppService userAppService, IPipelineHistoryProxy pipelineHistoryProxy = null)
         {
             _pipelineRepository = pipelineRepository;
             _userAppService = userAppService;
-            _backgroundJobManager = backgroundJobManager;
+            _pipelineHistoryProxy = pipelineHistoryProxy;
         }
 
         //[Authorize]
@@ -42,8 +41,7 @@ namespace Nebula.CI.Services.Pipeline
 
             var pipelineDto = ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
             pipelineDto.Diagram = diagram??pipelineDto.Diagram;
-
-            await _backgroundJobManager.EnqueueAsync(pipelineDto);
+            await _pipelineHistoryProxy?.CreateAsync(pipelineDto);
         }
 
         public async Task DeleteAsync(int id)
