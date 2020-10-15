@@ -23,7 +23,7 @@ namespace Nebula.CI.Services.Pipeline.Application
 
         public async Task<int> GetUserId()
         {
-            var identityId = "1"; //_currentUser.FindClaimValue("sub");
+            var identityId = _currentUser.FindClaimValue("sub");
             var user = await _userRepository.Where(s => s.IdentityId == identityId).FirstOrDefaultAsync();
             if (user != null) return user.Id;
 

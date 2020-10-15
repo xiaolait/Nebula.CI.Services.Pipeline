@@ -22,7 +22,7 @@ namespace Nebula.CI.Services.Pipeline
             _serviceProvider = serviceProvider;
         }
 
-        //[Authorize]
+        [Authorize]
         public async Task<PipelineDto> CreateAsync(CreatePipelineDto input)
         {
             var userId = await _userAppService.GetUserId();
@@ -58,7 +58,7 @@ namespace Nebula.CI.Services.Pipeline
             return ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
         }
 
-        //[Authorize]
+        [Authorize]
         public async Task<List<PipelineDto>> GetListAsync()
         {
             var userId = await _userAppService.GetUserId();
