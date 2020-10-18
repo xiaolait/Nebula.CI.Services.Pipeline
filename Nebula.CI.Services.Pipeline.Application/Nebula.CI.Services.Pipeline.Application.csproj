@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DomainEventHandlers\" />
+    <Folder Include="Etos\" />
   </ItemGroup>
 </Project>
