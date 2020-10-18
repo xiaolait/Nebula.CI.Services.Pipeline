@@ -6,7 +6,7 @@ using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
 using Volo.Abp.Users;
 
-namespace Nebula.CI.Services.Pipeline.Application
+namespace Nebula.CI.Services.Pipeline
 {
     public class UserAppService : IUserAppService
     {
