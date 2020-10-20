@@ -37,8 +37,9 @@ namespace Nebula.CI.Services.Pipeline
         public async Task CreateRunAsync(int id, string diagram)
         {
             var pipeline = await _pipelineRepository.GetAsync(id);
-            pipeline.Run();
+            if (!pipeline.IsDiagramAvailable()) return;
 
+            pipeline.Run();
             var pipelineDto = ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
             pipelineDto.Diagram = diagram??pipelineDto.Diagram;
 
