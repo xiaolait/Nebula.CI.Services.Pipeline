@@ -16,7 +16,7 @@ namespace Nebula.CI.Services.Pipeline
         Task CreateRunAsync(int id, string diagram);
 
         Task UpdateAsync(UpdatePipelineDiagramDto input);
-        Task UpdateStatusAsync(UpdatePipelineStatusDto input);
+        //Task UpdateStatusAsync(UpdatePipelineStatusDto input);
 
         Task DeleteAsync(int id);
     }
