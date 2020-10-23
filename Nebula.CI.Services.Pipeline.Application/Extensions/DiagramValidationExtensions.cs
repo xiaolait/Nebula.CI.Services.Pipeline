@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 
 namespace Nebula.CI.Services.Pipeline
 {
-    public static class PipelineValidationExtensions
+    public static class DiagramValidationExtensions
     {
-        public static bool IsDiagramAvailable(this Pipeline pipeline)
+        public static bool IsDiagramAvailable(this string diagram)
         {
-            if (string.IsNullOrEmpty(pipeline.Diagram)) return false;
-            var diagram = JsonConvert.DeserializeObject<Digram>(pipeline.Diagram);
-            if (diagram.NodeList == null || diagram.NodeList.Count == 0) return false;
+            if (string.IsNullOrEmpty(diagram)) return false;
+            var diagramModel = JsonConvert.DeserializeObject<Digram>(diagram);
+            if (diagramModel.NodeList == null || diagramModel.NodeList.Count == 0) return false;
             else return true;
         }
 

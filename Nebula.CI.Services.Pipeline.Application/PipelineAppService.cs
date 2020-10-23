@@ -16,21 +16,15 @@ namespace Nebula.CI.Services.Pipeline
         private readonly IRepository<Pipeline, int> _pipelineRepository;
         private readonly IDistributedEventBus _distributedEventBus;
         private readonly ICurrentUser _currentUser;
-        //private readonly IUserAppService _userAppService;
-        //private readonly IServiceProvider _serviceProvider;
 
         public PipelineAppService(
             IRepository<Pipeline, int> pipelineRepository, 
             IDistributedEventBus distributedEventBus, 
-            ICurrentUser currentUser
-            /*, IUserAppService userAppService, IServiceProvider serviceProvider*/)
+            ICurrentUser currentUser)
         {
             _pipelineRepository = pipelineRepository;
             _distributedEventBus = distributedEventBus;
             _currentUser = currentUser;
-            
-            //_userAppService = userAppService;
-            //_serviceProvider = serviceProvider;
         }
 
         [Authorize]
@@ -45,25 +39,28 @@ namespace Nebula.CI.Services.Pipeline
             return ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
         }
 
-        public async Task CreateRunAsync(int id, string diagram)
+        public async Task GetRunAsync(int id, string diagram)
         {
             var pipeline = await _pipelineRepository.GetAsync(id);
-            if (!pipeline.IsDiagramAvailable()) return;
+            if (pipeline == null) return;
+
+            var execDiagram = diagram??pipeline.Diagram;
+            if (!execDiagram.IsDiagramAvailable()) return;
 
             pipeline.Run();
+            await _distributedEventBus.PublishAsync(new PipelineRunEto(){
+                No = pipeline.ExecTimes,
+                Diagram = diagram??pipeline.Diagram,
+                PipelineName = pipeline.Name,
+                PipelineId = pipeline.Id,
+                UserId = pipeline.UserId
+            });
             /*
             var pipelineDto = ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
             pipelineDto.Diagram = diagram??pipelineDto.Diagram;
             var pipelineHistoryProxy = _serviceProvider.GetService(typeof(IPipelineHistoryProxy)) as IPipelineHistoryProxy;
             await pipelineHistoryProxy.CreateAsync(pipelineDto);
             */
-            await _distributedEventBus.PublishAsync(new PipelineRunEto(){
-                No = pipeline.ExecTimes,
-                Diagram = pipeline.Diagram,
-                PipelineName = pipeline.Name,
-                PipelineId = pipeline.Id,
-                UserId = pipeline.UserId
-            });
         }
 
         public async Task DeleteAsync(int id)
@@ -97,12 +94,5 @@ namespace Nebula.CI.Services.Pipeline
             pipeline.SetName(input.Name);
             pipeline.SetDiagram(input.Diagram);
         }
-        /*
-        public async Task UpdateStatusAsync(UpdatePipelineStatusDto input)
-        {
-            var pipeline = await _pipelineRepository.GetAsync(input.Id);
-            pipeline.SetStatus(input.Status, input.Time);
-        }
-        */
     }
 }

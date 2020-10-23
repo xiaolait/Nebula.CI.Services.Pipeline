@@ -11,6 +11,8 @@ namespace Nebula.CI.Services.Pipeline
         public string LastSucceededTime { get; protected set; }
         public string LastFailedTime { get; protected set; }
         public int ExecTimes { get; protected set; }
+        public int SucceededTimes { get; protected set; }
+        public int FailedTimes { get; protected set; }
         public string UserId { get; protected set; }
 
         protected Pipeline()
@@ -40,15 +42,34 @@ namespace Nebula.CI.Services.Pipeline
         public Pipeline SetStatus(string status, string time)
         {
             LastStatus = status;
-            if (status == "Succeeded") LastSucceededTime = time;
-            if (status == "Failed") LastFailedTime = time;
+            if (status == "Succeeded") {
+                LastSucceededTime = time;
+                SucceededTimes++;
+            }
+            if (status == "Failed") {
+                LastFailedTime = time;
+                FailedTimes++;
+            }
             return this;
         }
 
         public Pipeline Run()
         {
             ExecTimes++;
+            AddLocalEvent(new PipelineRunEvent() { Pipeline = this});
             return this;
+        }
+
+        public Pipeline SetProperty<T>(string property, object obj)
+        {
+            ExtraProperties[property] = obj;
+            return this;
+        }
+
+        public T GetProperty<T>(string property)
+        {
+            if (ExtraProperties.ContainsKey(property)) return (T)ExtraProperties[property];
+            else return default(T);
         }
     }
 }

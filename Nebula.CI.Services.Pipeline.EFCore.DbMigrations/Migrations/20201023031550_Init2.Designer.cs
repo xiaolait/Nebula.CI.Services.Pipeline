@@ -9,7 +9,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Nebula.CI.Services.Pipeline.EFCore.DbMigrations.Migrations
 {
     [DbContext(typeof(PipelineDbMigrationsContext))]
-    [Migration("20201023024820_Init2")]
+    [Migration("20201023031550_Init2")]
     partial class Init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

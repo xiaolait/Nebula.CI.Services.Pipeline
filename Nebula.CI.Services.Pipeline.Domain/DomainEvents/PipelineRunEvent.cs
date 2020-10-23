@@ -1,6 +1,6 @@
 namespace Nebula.CI.Services.Pipeline
 {
-    public class PipelineRunEventData
+    public class PipelineRunEvent
     {
         public Pipeline Pipeline { get; set; }
     }

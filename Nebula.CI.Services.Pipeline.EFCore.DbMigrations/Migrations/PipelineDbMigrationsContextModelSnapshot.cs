@@ -40,6 +40,9 @@ namespace Nebula.CI.Services.Pipeline.EFCore.DbMigrations.Migrations
                         .HasColumnName("ExtraProperties")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
+                    b.Property<int>("FailedTimes")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastFailedTime")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -51,6 +54,9 @@ namespace Nebula.CI.Services.Pipeline.EFCore.DbMigrations.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("SucceededTimes")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
