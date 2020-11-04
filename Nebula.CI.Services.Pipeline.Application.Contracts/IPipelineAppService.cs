@@ -17,6 +17,8 @@ namespace Nebula.CI.Services.Pipeline
 
         Task UpdateAsync(UpdatePipelineDiagramDto input);
 
+        Task UpdateInfoAsync(PipelineInfoDto input);
+
         Task DeleteAsync(int id);
     }
 }

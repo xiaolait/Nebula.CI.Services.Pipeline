@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +76,13 @@ namespace Nebula.CI.Services.Pipeline
             return ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
         }
 
+        public async Task<PipelineInfoDto> GetInfoAsync(int id)
+        {
+            var pipeline = await _pipelineRepository.GetAsync(id);
+
+            return ObjectMapper.Map<Pipeline, PipelineInfoDto>(pipeline);
+        }
+
         [Authorize]
         public async Task<List<PipelineDto>> GetListAsync()
         {
@@ -93,6 +101,16 @@ namespace Nebula.CI.Services.Pipeline
 
             pipeline.SetName(input.Name);
             pipeline.SetDiagram(input.Diagram);
+        }
+
+        public async Task UpdateInfoAsync(PipelineInfoDto input)
+        {
+            var pipeline = await _pipelineRepository.GetAsync(input.Id);
+            foreach (PropertyInfo p in input.GetType().GetProperties())
+            {
+                pipeline.SetProperty<string>(p.Name, p.GetValue(input));
+            }
+            
         }
     }
 }
