@@ -9,6 +9,10 @@ namespace Nebula.CI.Services.Pipeline
     {
         Task<List<PipelineDto>> GetListAsync();
 
+        Task<List<PipelineDto>> GetListExampleAsync();
+
+        Task<List<PipelineDto>> GetListTemplateAsync();
+        
         Task<PipelineDto> GetAsync(int id);
 
         Task<PipelineDto> CreateAsync(CreatePipelineDto input);

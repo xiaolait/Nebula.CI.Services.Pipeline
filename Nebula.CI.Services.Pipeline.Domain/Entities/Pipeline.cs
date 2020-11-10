@@ -14,17 +14,19 @@ namespace Nebula.CI.Services.Pipeline
         public int SucceededTimes { get; protected set; }
         public int FailedTimes { get; protected set; }
         public string UserId { get; protected set; }
+        public string UserName { get; protected set; }
 
         protected Pipeline()
         {
 
         }
 
-        public Pipeline(string name, string userId, string diagram = null)
+        public Pipeline(string name, string userId, string userName, string diagram = null)
         {
             Name = name;
             Diagram = diagram;
             UserId = userId;
+            UserName = userName;
         }
 
         public Pipeline SetName(string name)

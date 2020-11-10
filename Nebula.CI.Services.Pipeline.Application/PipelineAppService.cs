@@ -31,9 +31,10 @@ namespace Nebula.CI.Services.Pipeline
         [Authorize]
         public async Task<PipelineDto> CreateAsync(CreatePipelineDto input)
         {
-            var userId = _currentUser.FindClaimValue("sub");//await _userAppService.GetUserId();
+            var userId = _currentUser.FindClaimValue("sub");
+            var userName = _currentUser.FindClaimValue("name");
             var pipeline = await _pipelineRepository.InsertAsync(
-                new Pipeline(input.Name, userId, input.Diagram)
+                new Pipeline(input.Name, userId, userName, input.Diagram)
             );
             await UnitOfWorkManager.Current.SaveChangesAsync();
 
@@ -86,9 +87,27 @@ namespace Nebula.CI.Services.Pipeline
         [Authorize]
         public async Task<List<PipelineDto>> GetListAsync()
         {
-            var userId = _currentUser.FindClaimValue("sub");//await _userAppService.GetUserId();
+            var userId = _currentUser.FindClaimValue("sub");
 
             var pipelines = await _pipelineRepository.Where(s => s.UserId == userId).ToListAsync();
+
+            var pipelineList = ObjectMapper.Map<List<Pipeline>, List<PipelineDto>>(pipelines);
+
+            return pipelineList;
+        }
+
+        public async Task<List<PipelineDto>> GetListExampleAsync()
+        {
+            var pipelines = await _pipelineRepository.Where(s => s.UserName == "example").ToListAsync();
+
+            var pipelineList = ObjectMapper.Map<List<Pipeline>, List<PipelineDto>>(pipelines);
+
+            return pipelineList;
+        }
+
+        public async Task<List<PipelineDto>> GetListTemplateAsync()
+        {
+            var pipelines = await _pipelineRepository.Where(s => s.UserName == "template").ToListAsync();
 
             var pipelineList = ObjectMapper.Map<List<Pipeline>, List<PipelineDto>>(pipelines);
 

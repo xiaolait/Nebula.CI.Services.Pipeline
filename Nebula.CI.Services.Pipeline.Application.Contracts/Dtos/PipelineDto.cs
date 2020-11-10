@@ -12,5 +12,7 @@ namespace Nebula.CI.Services.Pipeline
         public int ExecTimes { get; set; }
         public int SucceededTimes { get; set; }
         public int FailedTimes { get; set; }
+        public string UserId { get; protected set; }
+        public string UserName { get; protected set; }
     }
 }
