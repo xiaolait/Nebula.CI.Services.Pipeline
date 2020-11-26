@@ -41,28 +41,14 @@ namespace Nebula.CI.Services.Pipeline
             return ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
         }
 
+        public async Task CreateRunAsync(int id, string diagram)
+        {
+            await Run(id, diagram);
+        }
+
         public async Task GetRunAsync(int id, string diagram)
         {
-            var pipeline = await _pipelineRepository.GetAsync(id);
-            if (pipeline == null) return;
-
-            var execDiagram = diagram??pipeline.Diagram;
-            if (!execDiagram.IsDiagramAvailable()) return;
-
-            pipeline.Run();
-            await _distributedEventBus.PublishAsync(new PipelineRunEto(){
-                No = pipeline.ExecTimes,
-                Diagram = diagram??pipeline.Diagram,
-                PipelineName = pipeline.Name,
-                PipelineId = pipeline.Id,
-                UserId = pipeline.UserId
-            });
-            /*
-            var pipelineDto = ObjectMapper.Map<Pipeline, PipelineDto>(pipeline);
-            pipelineDto.Diagram = diagram??pipelineDto.Diagram;
-            var pipelineHistoryProxy = _serviceProvider.GetService(typeof(IPipelineHistoryProxy)) as IPipelineHistoryProxy;
-            await pipelineHistoryProxy.CreateAsync(pipelineDto);
-            */
+            await Run(id, diagram);
         }
 
         public async Task DeleteAsync(int id)
@@ -131,5 +117,24 @@ namespace Nebula.CI.Services.Pipeline
             }
             
         }
+
+        private async Task Run(int id, string diagram)
+        {
+            var pipeline = await _pipelineRepository.GetAsync(id);
+            if (pipeline == null) return;
+
+            var execDiagram = diagram??pipeline.Diagram;
+            if (!execDiagram.IsDiagramAvailable()) return;
+
+            pipeline.Run();
+            await _distributedEventBus.PublishAsync(new PipelineRunEto(){
+                No = pipeline.ExecTimes,
+                Diagram = diagram??pipeline.Diagram,
+                PipelineName = pipeline.Name,
+                PipelineId = pipeline.Id,
+                UserId = pipeline.UserId
+            });
+        }
+
     }
 }
